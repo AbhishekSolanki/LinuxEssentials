@@ -1,17 +1,28 @@
+#ubuntu proxy
+echo "export http_proxy=\"USERNAME:PASSWORD@HOST.COM:PORT\"" >> ~/.bashrc
+echo "export https_proxy=\"USERNAME:PASSWORD@HOST.COM:PORT\"" >> ~/.bashrc
+
+echo "export http_proxy=\"USERNAME:PASSWORD@HOST.COM:PORT\"" >> /etc/environment 
+echo "export https_proxy=\"USERNAME:PASSWORD@HOST.COM:PORT\"" >> /etc/environment 
+
+source ~/.bashrc
+
+# Package directory 
 mkdir -p /opt/packages
 sudo chown ubuntu:ubuntu /opt/packages/
 
 ============
 # Java 1.8 #
 ============
-# https://download.oracle.com/otn/java/jdk/8u231-b11/5b13a193868b4bf28bcb45c792fce896/jdk-8u231-linux-x64.tar.gz?AuthParam=1578367644_82b21aa9dbea98ceda4e6f71a02ce260
-tar -xzvf ~/Downloads/jdk-8u231-linux-x64.tar.gz -C /opt/packages
 
+wget -P ~/Downloads/ https://download.oracle.com/otn/java/jdk/8u231-b11/5b13a193868b4bf28bcb45c792fce896/jdk-8u231-linux-x64.tar.gz?AuthParam=1578367644_82b21aa9dbea98ceda4e6f71a02ce260
+tar -xzvf ~/Downloads/jdk-8u231-linux-x64.tar.gz -C /opt/packages
 
 =============
 # ZOOKEEPER #
 =============
-#https://www-eu.apache.org/dist/zookeeper/stable/apache-zookeeper-3.5.6-bin.tar.gz
+
+wget -P ~/Downloads/ https://www-eu.apache.org/dist/zookeeper/stable/apache-zookeeper-3.5.6-bin.tar.gz
 tar -xzvf ~/Downloads/apache-zookeeper-3.5.6-bin.tar.gz -C /opt/packages
 
 #Start
@@ -23,7 +34,8 @@ tar -xzvf ~/Downloads/apache-zookeeper-3.5.6-bin.tar.gz -C /opt/packages
 =========
 # KAFKA #
 =========
-#https://downloads.lightbend.com/scala/2.13.1/scala-2.13.1.tgz
+
+wget -P ~/Downloads/ https://downloads.lightbend.com/scala/2.13.1/scala-2.13.1.tgz
 tar -xzf ~/Downloads/kafka_2.13-2.4.0.tgz -C /opt/packages
 
 #start
@@ -32,7 +44,8 @@ tar -xzf ~/Downloads/kafka_2.13-2.4.0.tgz -C /opt/packages
 =========
 # SCALA #
 =========
-#https://downloads.lightbend.com/scala/2.13.1/scala-2.13.1.tgz
+
+wget -P ~/Downloads/ https://downloads.lightbend.com/scala/2.13.1/scala-2.13.1.tgz
 tar -xzvf ~/Downloads/scala-2.13.1.tgz -C /opt/packages
 
 ==========
@@ -47,7 +60,6 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-
 #proxy configuration
 # sudo mkdir -p /etc/systemd/system/docker.service.d
 # sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf and https-proxy.conf
@@ -59,7 +71,6 @@ sudo systemctl restart docker #Restart docker
 systemctl show --property=Environment docker #verify
 sudo systemctl enable docker
 
-
 ==============
 # KUBERNETES #
 ==============
@@ -67,3 +78,13 @@ sudo systemctl enable docker
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 sudo apt install kubeadm
+
+curl -LO http://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+   && sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+=======================
+# ANACONDA #
+=======================
+
+wget -P ~/Downloads/ https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
+sudo yes y | sh ~/Downloads/Anaconda3-2019.10-Linux-x86_64.sh
